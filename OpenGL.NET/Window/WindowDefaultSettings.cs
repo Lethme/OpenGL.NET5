@@ -12,6 +12,6 @@ namespace OpenGL
         public const int WindowHeight = 600;
         public const string WindowTitle = "OpenGL Application";
         public const int WindowUpdateFrequency = 60;
-        public const int WindowRenderFrequency = 10;
+        public const int WindowRenderFrequency = 60;
     }
 }
