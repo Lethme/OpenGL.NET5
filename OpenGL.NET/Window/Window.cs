@@ -66,7 +66,7 @@ namespace OpenGL
             
             this.Camera = new Camera(this);
             var mouseState = Mouse.GetState();
-            Camera.lastMousePos = new Vector2(mouseState.X, mouseState.Y);
+            Camera.LastMousePos = new Vector2(mouseState.X, mouseState.Y);
 
             base.OnLoad(e);
         }
@@ -94,7 +94,7 @@ namespace OpenGL
         {
             base.OnFocusedChanged(e);
             var mouseState = Mouse.GetState();
-            Camera.lastMousePos = new Vector2(mouseState.X, mouseState.Y);
+            Camera.LastMousePos = new Vector2(mouseState.X, mouseState.Y);
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {

@@ -21,7 +21,7 @@ namespace OpenGL
         private NativeWindow Window { get; }
         public Vector3 Position => position;
         public Vector3 Orientation => orientation;
-        public Vector2 LastMousePos => lastMousePos;
+        public Vector2 LastMousePos { get { return lastMousePos; } set { lastMousePos = value; } }
         public Camera(NativeWindow window)
         {
             this.Window = window;
