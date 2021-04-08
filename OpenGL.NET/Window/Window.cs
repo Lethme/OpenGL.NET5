@@ -25,9 +25,9 @@ namespace OpenGL
         (
             int width,
             int height,
-            string title = WindowDefaultSettings.WindowTitle,
-            int updateFrequency = WindowDefaultSettings.WindowUpdateFrequency,
-            int renderFrequency = WindowDefaultSettings.WindowRenderFrequency,
+            string title = Settings.Window.WindowTitle,
+            int updateFrequency = Settings.Window.WindowUpdateFrequency,
+            int renderFrequency = Settings.Window.WindowRenderFrequency,
             FloatColor backgroundColor = null
         )
             : base(width, height, GraphicsMode.Default, title)
@@ -37,14 +37,14 @@ namespace OpenGL
         }
         public OpenGLWindow() : base
         (
-            WindowDefaultSettings.WindowWidth,
-            WindowDefaultSettings.WindowHeight,
+            Settings.Window.WindowWidth,
+            Settings.Window.WindowHeight,
             GraphicsMode.Default,
-            WindowDefaultSettings.WindowTitle
+            Settings.Window.WindowTitle
         )
         {
-            TargetUpdateFrequency = WindowDefaultSettings.WindowUpdateFrequency;
-            TargetRenderFrequency = WindowDefaultSettings.WindowRenderFrequency;
+            TargetUpdateFrequency = Settings.Window.WindowUpdateFrequency;
+            TargetRenderFrequency = Settings.Window.WindowRenderFrequency;
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
