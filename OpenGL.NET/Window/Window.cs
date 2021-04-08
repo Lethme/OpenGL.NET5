@@ -19,6 +19,7 @@ namespace OpenGL
 {
     public class OpenGLWindow : GameWindow
     {
+        private FloatColor BackgroundColor { get; set; } = Color.Black;
         private double alpha { get; set; } = 0.0;
         private Camera Camera { get; set; }
         public OpenGLWindow
@@ -32,6 +33,7 @@ namespace OpenGL
         )
             : base(width, height, GraphicsMode.Default, title)
         {
+            BackgroundColor = backgroundColor;
             TargetUpdateFrequency = updateFrequency;
             TargetRenderFrequency = renderFrequency;
         }
@@ -50,7 +52,7 @@ namespace OpenGL
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            var matrix = Camera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView((((float)Math.PI / 180) * 60.0f), Width / Height, 1.0f, 150.0f);
+            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 60.0f), Width / Height, 1.0f, 150.0f);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
             base.OnUpdateFrame(e);
@@ -61,7 +63,7 @@ namespace OpenGL
             CursorVisible = false;
             CursorGrabbed = true;
 
-            GL.ClearColor(Color.Black);
+            GL.ClearColor(BackgroundColor);
             GL.Enable(EnableCap.DepthTest);
             
             this.Camera = new Camera(this);
@@ -80,7 +82,7 @@ namespace OpenGL
             GL.Viewport(0, 0, Width, Height);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            var matrix = Camera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView((((float)Math.PI / 180) * 45.0f), Width / Height, 1.0f, 100.0f);
+            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView((((float)Math.PI / 180) * 45.0f), Width / Height, 1.0f, 100.0f);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
             base.OnResize(e);

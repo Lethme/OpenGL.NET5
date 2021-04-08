@@ -16,8 +16,8 @@ namespace OpenGL
         public Vector3 Position = Settings.Camera.InitialPosition;
         public Vector3 Orientation = Settings.Camera.InitialOrientation;
         public Vector2 LastMousePos = new Vector2();
-        public float MoveSpeed = Settings.Camera.MoveSpeed;
-        public float MouseSensitivity = Settings.Camera.MouseSensitivity;
+        public float MoveSpeed { get; set; } = Settings.Camera.MoveSpeed;
+        public float MouseSensitivity { get; set; } = Settings.Camera.MouseSensitivity;
         private NativeWindow Window { get; }
         public Camera(NativeWindow window, Vector3? initialPosition = null, Vector3? initialOrientation = null)
         {
@@ -27,16 +27,18 @@ namespace OpenGL
             if (initialPosition != null) this.Position = (Vector3)initialPosition;
             if (initialOrientation != null) this.Orientation = (Vector3)initialOrientation;
         }
+        public Matrix4 ViewMatrix
+        { 
+            get
+            {
+                Vector3 lookat = new Vector3();
 
-        public Matrix4 GetViewMatrix()
-        {
-            Vector3 lookat = new Vector3();
+                lookat.X = (float)(Math.Sin((float)Orientation.X) * Math.Cos((float)Orientation.Y));
+                lookat.Y = (float)Math.Sin((float)Orientation.Y);
+                lookat.Z = (float)(Math.Cos((float)Orientation.X) * Math.Cos((float)Orientation.Y));
 
-            lookat.X = (float)(Math.Sin((float)Orientation.X) * Math.Cos((float)Orientation.Y));
-            lookat.Y = (float)Math.Sin((float)Orientation.Y);
-            lookat.Z = (float)(Math.Cos((float)Orientation.X) * Math.Cos((float)Orientation.Y));
-
-            return Matrix4.LookAt(Position, Position + lookat, Vector3.UnitY);
+                return Matrix4.LookAt(Position, Position + lookat, Vector3.UnitY);
+            }
         }
         public void Move(float x, float y, float z)
         {
@@ -54,7 +56,7 @@ namespace OpenGL
 
             Position += offset;
         }
-        public void AddRotation(float x, float y)
+        public void Rotate(float x, float y)
         {
             x = x * MouseSensitivity;
             y = y * MouseSensitivity;
@@ -70,7 +72,7 @@ namespace OpenGL
                 Vector2 delta = LastMousePos - new Vector2(mouseState.X, mouseState.Y);
                 LastMousePos += delta;
 
-                AddRotation(delta.X, delta.Y);
+                Rotate(delta.X, delta.Y);
                 LastMousePos = new Vector2(mouseState.X, mouseState.Y);
             }
 

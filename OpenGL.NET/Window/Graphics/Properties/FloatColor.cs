@@ -76,6 +76,10 @@ namespace OpenGL.Window.Graphics.Properties
         {
             return FloatColor.Create(color.color, color.alpha);
         }
+        public static implicit operator Color(FloatColor color)
+        {
+            return Color.FromArgb((int)Math.Round(color.A * 255), (int)Math.Round(color.R * 255), (int)Math.Round(color.G * 255), (int)Math.Round(color.B * 255));
+        }
         public static FloatColor Create(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f) => new FloatColor(r, g, b, a);
         public static FloatColor Create(byte r = 0, byte g = 0, byte b = 0, float a = 1.0f) => new FloatColor(r, g, b, a);
         public static FloatColor Create(Color? color, float alpha = 1f) => new FloatColor(color, alpha);
