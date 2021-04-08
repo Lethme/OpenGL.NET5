@@ -13,9 +13,9 @@ namespace OpenGL
 {
     class Camera
     {
-        public Vector3 Position = Settings.Camera.InitialPosition;
-        public Vector3 Orientation = Settings.Camera.InitialOrientation;
-        public Vector2 LastMousePos = new Vector2();
+        private Vector3 position = Settings.Camera.InitialPosition;
+        private Vector3 orientation = Settings.Camera.InitialOrientation;
+        private Vector2 lastMousePos = new Vector2();
         public float MoveSpeed { get; set; } = Settings.Camera.MoveSpeed;
         public float MouseSensitivity { get; set; } = Settings.Camera.MouseSensitivity;
         private NativeWindow Window { get; }
@@ -24,27 +24,30 @@ namespace OpenGL
             if (window == null) throw new ArgumentNullException($"{nameof(window)} can't be null reference!");
 
             this.Window = window;
-            if (initialPosition != null) this.Position = (Vector3)initialPosition;
-            if (initialOrientation != null) this.Orientation = (Vector3)initialOrientation;
+            if (initialPosition != null) this.position = (Vector3)initialPosition;
+            if (initialOrientation != null) this.orientation = (Vector3)initialOrientation;
         }
+        public Vector3 Position { get { return position; } set { position = value; } }
+        public Vector3 Orientation { get { return orientation; } set { orientation = value; } }
+        public Vector2 LastMousePos { get { return lastMousePos; } set { lastMousePos = value; } }
         public Matrix4 ViewMatrix
         { 
             get
             {
                 Vector3 lookat = new Vector3();
 
-                lookat.X = (float)(Math.Sin((float)Orientation.X) * Math.Cos((float)Orientation.Y));
-                lookat.Y = (float)Math.Sin((float)Orientation.Y);
-                lookat.Z = (float)(Math.Cos((float)Orientation.X) * Math.Cos((float)Orientation.Y));
+                lookat.X = (float)(Math.Sin((float)orientation.X) * Math.Cos((float)orientation.Y));
+                lookat.Y = (float)Math.Sin((float)orientation.Y);
+                lookat.Z = (float)(Math.Cos((float)orientation.X) * Math.Cos((float)orientation.Y));
 
-                return Matrix4.LookAt(Position, Position + lookat, Vector3.UnitY);
+                return Matrix4.LookAt(position, position + lookat, Vector3.UnitY);
             }
         }
         public void Move(float x, float y, float z)
         {
             Vector3 offset = new Vector3();
 
-            Vector3 forward = new Vector3((float)Math.Sin((float)Orientation.X), 0, (float)Math.Cos((float)Orientation.X));
+            Vector3 forward = new Vector3((float)Math.Sin((float)orientation.X), 0, (float)Math.Cos((float)orientation.X));
             Vector3 right = new Vector3(-forward.Z, 0, forward.X);
 
             offset += x * right;
@@ -54,26 +57,26 @@ namespace OpenGL
             offset.NormalizeFast();
             offset = Vector3.Multiply(offset, MoveSpeed);
 
-            Position += offset;
+            position += offset;
         }
         public void Rotate(float x, float y)
         {
             x = x * MouseSensitivity;
             y = y * MouseSensitivity;
 
-            Orientation.X = (Orientation.X + x) % ((float)Math.PI * 2.0f);
-            Orientation.Y = Math.Max(Math.Min(Orientation.Y + y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
+            orientation.X = (orientation.X + x) % ((float)Math.PI * 2.0f);
+            orientation.Y = Math.Max(Math.Min(orientation.Y + y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
         }
         public void ProcessInput()
         {
             if (Window.Focused)
             {
                 var mouseState = Mouse.GetState();
-                Vector2 delta = LastMousePos - new Vector2(mouseState.X, mouseState.Y);
-                LastMousePos += delta;
+                Vector2 delta = lastMousePos - new Vector2(mouseState.X, mouseState.Y);
+                lastMousePos += delta;
 
                 Rotate(delta.X, delta.Y);
-                LastMousePos = new Vector2(mouseState.X, mouseState.Y);
+                lastMousePos = new Vector2(mouseState.X, mouseState.Y);
             }
 
             var keyboardState = Keyboard.GetState();
