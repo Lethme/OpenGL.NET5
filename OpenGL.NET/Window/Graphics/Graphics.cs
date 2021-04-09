@@ -13,82 +13,38 @@ using OpenGL.Window.Graphics.Properties;
 
 namespace OpenGL.Window.Graphics
 {
+    public enum ColorEnum
+    {
+        LightBrown,
+        DarkBrown
+    }
     public static class Objects
     {
         public static void DrawBench()
         {
-            //Поджопные доски
+            Graphics.DrawParallelepiped((-25f, 0.7f, 2f), (25f, -0.7f, -2f), Graphics.Colors[ColorEnum.LightBrown], Color.Black);
+            Graphics.DrawParallelepiped((-25f, 0.7f, -4f), (25f, -0.7f, -8f), Graphics.Colors[ColorEnum.LightBrown], Color.Black);
+            Graphics.DrawParallelepiped((-25f, 0.7f, 4f), (25f, -0.7f, 8f), Graphics.Colors[ColorEnum.LightBrown], Color.Black);
+            Graphics.DrawParallelepiped((-20f, -0.7f, 8f), (-15f, -12f, -8f), Graphics.Colors[ColorEnum.DarkBrown], Color.Black);
+            Graphics.DrawParallelepiped((15f, -0.7f, 8f), (20f, -12f, -8f), Graphics.Colors[ColorEnum.DarkBrown], Color.Black);
             GL.PushMatrix();
-            GL.Translate(0, 0, 0);
-            GL.Scale(2, 0.05, 0.2);
-            Graphics.DrawCube(Color.FromArgb(66, 33, 9));
-            GL.PopMatrix();
-
-            GL.PushMatrix();
-            GL.Translate(0, 0, -6.0f);
-            GL.Scale(2, 0.05, 0.2);
-            Graphics.DrawCube(Color.FromArgb(66, 33, 9));
-            GL.PopMatrix();
-
-            GL.PushMatrix();
-            GL.Translate(0, 0, 6.0f);
-            GL.Scale(2, 0.05, 0.2);
-            Graphics.DrawCube(Color.FromArgb(66, 33, 9));
-            GL.PopMatrix();
-
-            //Ноги
-            GL.PushMatrix();
-            GL.Translate(-13, -5.5, 0);
-            GL.Scale(0.15, 0.5, 0.8);
-            Graphics.DrawCube(Color.FromArgb(33, 16, 4));
-            GL.PopMatrix();
-
-            GL.PushMatrix();
-            GL.Translate(13, -5.5, 0);
-            GL.Scale(0.15, 0.5, 0.8);
-            Graphics.DrawCube(Color.FromArgb(33, 16, 4));
-            GL.PopMatrix();
-
-            //Спина
-            GL.PushMatrix();
-            GL.Translate(-13, 5, -10.5f);
-            GL.Rotate(70.0f, 1, 0, 0);
-            GL.Scale(0.15, 0.05, 1);
-            Graphics.DrawCube(Color.FromArgb(33, 16, 4));
-            GL.PopMatrix();
-
-            GL.PushMatrix();
-            GL.Translate(13, 5, -10.5f);
-            GL.Rotate(70.0f, 1, 0, 0);
-            GL.Scale(0.15, 0.05, 1);
-            Graphics.DrawCube(Color.FromArgb(33, 16, 4));
-            GL.PopMatrix();
-
-            //Спинные доски
-            GL.PushMatrix();
-            GL.Translate(0, 2.7, -8.5f);
-            GL.Rotate(70.0f, 1, 0, 0);
-            GL.Scale(2, 0.05, 0.2);
-            Graphics.DrawCube(Color.FromArgb(66, 33, 9));
-            GL.PopMatrix();
-
-            GL.PushMatrix();
-            GL.Translate(0, 7.3, -10.2f);
-            GL.Rotate(70.0f, 1, 0, 0);
-            GL.Scale(2, 0.05, 0.2);
-            Graphics.DrawCube(Color.FromArgb(66, 33, 9));
-            GL.PopMatrix();
-
-            GL.PushMatrix();
-            GL.Translate(0, 12, -12.0f);
-            GL.Rotate(70.0f, 1, 0, 0);
-            GL.Scale(2, 0.05, 0.2);
-            Graphics.DrawCube(Color.FromArgb(66, 33, 9));
+            GL.Translate(0, 9f, -9.8f);
+            GL.Rotate(70f, 1, 0, 0);
+            Graphics.DrawParallelepiped((-25f, 0.7f, 2f), (25f, -0.7f, -2f), Graphics.Colors[ColorEnum.LightBrown], Color.Black);
+            Graphics.DrawParallelepiped((-25f, 0.7f, -4f), (25f, -0.7f, -8f), Graphics.Colors[ColorEnum.LightBrown], Color.Black);
+            Graphics.DrawParallelepiped((-25f, 0.7f, 4f), (25f, -0.7f, 8f), Graphics.Colors[ColorEnum.LightBrown], Color.Black);
+            Graphics.DrawParallelepiped((-20f, -0.7f, -10f), (-15f, -2.5f, 12.2f), Graphics.Colors[ColorEnum.DarkBrown], Color.Black);
+            Graphics.DrawParallelepiped((15f, -0.7f, -10f), (20f, -2.6f, 12.2f), Graphics.Colors[ColorEnum.DarkBrown], Color.Black);
             GL.PopMatrix();
         }
     }
     public static class Graphics
     {
+        public static Dictionary<ColorEnum, Color> Colors { get; } = new Dictionary<ColorEnum, Color>()
+        {
+            { ColorEnum.LightBrown, Color.FromArgb(66, 33, 9) },
+            { ColorEnum.DarkBrown, Color.FromArgb(33, 16, 4) }
+        };
         public static void DrawParallelepiped(FloatPoint3 firstPoint, FloatPoint3 secondPoint, Color? fillColor = null, Color? borderColor = null)
         {
             GL.Begin(PrimitiveType.Quads);
@@ -151,45 +107,6 @@ namespace OpenGL.Window.Graphics
             GL.Vertex3(firstPoint.X, secondPoint.Y, secondPoint.Z);
             GL.Vertex3(secondPoint.X, secondPoint.Y, firstPoint.Z);
             GL.Vertex3(secondPoint.X, secondPoint.Y, secondPoint.Z);
-            GL.End();
-        }
-        public static void DrawCube(Color color)
-        {
-            GL.Begin(PrimitiveType.Quads);
-
-            GL.Color3(color);
-
-            //front
-            GL.Vertex3(-10.0, 10.0, 10.0);
-            GL.Vertex3(-10.0, 10.0, -10.0);
-            GL.Vertex3(-10.0, -10.0, -10.0);
-            GL.Vertex3(-10.0, -10.0, 10.0);
-            //back
-            GL.Vertex3(10.0, 10.0, 10.0);
-            GL.Vertex3(10.0, 10.0, -10.0);
-            GL.Vertex3(10.0, -10.0, -10.0);
-            GL.Vertex3(10.0, -10.0, 10.0);
-            //top
-            GL.Vertex3(10.0, -10.0, 10.0);
-            GL.Vertex3(10.0, -10.0, -10.0);
-            GL.Vertex3(-10.0, -10.0, -10.0);
-            GL.Vertex3(-10.0, -10.0, 10.0);
-            //bottom
-            GL.Vertex3(10.0, 10.0, 10.0);
-            GL.Vertex3(10.0, 10.0, -10.0);
-            GL.Vertex3(-10.0, 10.0, -10.0);
-            GL.Vertex3(-10.0, 10.0, 10.0);
-            //right
-            GL.Vertex3(10.0, 10.0, -10.0);
-            GL.Vertex3(10.0, -10.0, -10.0);
-            GL.Vertex3(-10.0, -10.0, -10.0);
-            GL.Vertex3(-10.0, 10.0, -10.0);
-            //left
-            GL.Vertex3(10.0, 10.0, 10.0);
-            GL.Vertex3(10.0, -10.0, 10.0);
-            GL.Vertex3(-10.0, -10.0, 10.0);
-            GL.Vertex3(-10.0, 10.0, 10.0);
-
             GL.End();
         }
     }

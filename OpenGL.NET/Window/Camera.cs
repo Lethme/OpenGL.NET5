@@ -104,6 +104,8 @@ namespace OpenGL
             {
                 Move(0f, 0f, -0.1f);
             }
+            if (keyboardState.IsKeyDown(Key.AltLeft)) this.MoveSpeed = Settings.Camera.MoveSpeedAccelerated;
+            else this.MoveSpeed = Settings.Camera.MoveSpeed;
         }
     }
 }

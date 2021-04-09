@@ -22,6 +22,7 @@ namespace OpenGL
         private FloatColor BackgroundColor { get; set; } = Color.Black;
         private double alpha { get; set; } = 0.0;
         private Camera Camera { get; set; }
+        private int Rotation { get; set; } = 0;
         public OpenGLWindow
         (
             int width,
@@ -107,18 +108,24 @@ namespace OpenGL
             GL.LineWidth(10);
             GL.Color3(Color.Red);
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 50, 0);
+            GL.Vertex3(0, 80, 0);
             GL.Color3(Color.Green);
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(50, 0, 0);
+            GL.Vertex3(80, 0, 0);
             GL.Color3(Color.Blue);
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, 50);
+            GL.Vertex3(0, 0, 80);
             GL.End();
 
-            Objects.DrawBench();
+            if (Keyboard.GetState().IsKeyDown(Key.Q)) Rotation += 1;
+            if (Keyboard.GetState().IsKeyDown(Key.E)) Rotation -= 1;
+            if (Keyboard.GetState().IsKeyDown(Key.R)) Rotation = 0;
+            if (Rotation <= -360 || Rotation >= 360) Rotation = 0;
 
-            Graphics.DrawParallelepiped((-5f, 15f, -3f), (5f, 10f, 3f), Color.Green, Color.CornflowerBlue);
+            GL.PushMatrix();
+            GL.Rotate(Rotation, 0, 0, 1);
+            Objects.DrawBench();
+            GL.PopMatrix();
 
             Context.SwapBuffers();
 
