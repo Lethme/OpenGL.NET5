@@ -16,7 +16,7 @@ namespace OpenGL
             (
                 width: 900,
                 height: 900,
-                title: "Shvabrinskoe govno v 3D",
+                title: "OpenGL App",
                 updateFrequency: 60,
                 renderFrequency: 60,
                 backgroundColor: Color.DarkSeaGreen

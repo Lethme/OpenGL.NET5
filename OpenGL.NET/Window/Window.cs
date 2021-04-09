@@ -52,7 +52,7 @@ namespace OpenGL
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 60.0f), Width / Height, 1.0f, 300.0f);
+            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 70.0f), Width / Height, 1.0f, 300.0f);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
             base.OnUpdateFrame(e);
@@ -82,7 +82,7 @@ namespace OpenGL
             GL.Viewport(0, 0, Width, Height);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView((((float)Math.PI / 180) * 45.0f), Width / Height, 1.0f, 100.0f);
+            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView((((float)Math.PI / 180) * 70.0f), Width / Height, 1.0f, 300.0f);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
             base.OnResize(e);
@@ -117,6 +117,8 @@ namespace OpenGL
             GL.End();
 
             Objects.DrawBench();
+
+            Graphics.DrawParallelepiped((-5f, 15f, -3f), (5f, 10f, 3f), Color.Green, Color.CornflowerBlue);
 
             Context.SwapBuffers();
 

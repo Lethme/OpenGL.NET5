@@ -54,6 +54,7 @@
     <Compile Include="Window\Graphics\Graphics.cs" />
     <Compile Include="Window\Graphics\Properties\FloatColor.cs" />
     <Compile Include="Window\Graphics\Properties\FloatPoint.cs" />
+    <Compile Include="Window\Graphics\Properties\FloatPoint3.cs" />
     <Compile Include="Window\Window.cs" />
     <Compile Include="Window\DefaultSettings.cs" />
   </ItemGroup>

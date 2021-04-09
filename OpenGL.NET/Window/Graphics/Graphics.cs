@@ -9,6 +9,8 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
+using OpenGL.Window.Graphics.Properties;
+
 namespace OpenGL.Window.Graphics
 {
     public static class Objects
@@ -87,6 +89,70 @@ namespace OpenGL.Window.Graphics
     }
     public static class Graphics
     {
+        public static void DrawParallelepiped(FloatPoint3 firstPoint, FloatPoint3 secondPoint, Color? fillColor = null, Color? borderColor = null)
+        {
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color3(fillColor == null ? Color.White : (Color)fillColor);
+            //front
+            GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, firstPoint.Z);
+            //back
+            GL.Vertex3(secondPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, secondPoint.Z);
+            //top
+            GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, firstPoint.Z);
+            //bottom
+            GL.Vertex3(firstPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, firstPoint.Z);
+            //right
+            GL.Vertex3(secondPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, secondPoint.Z);
+            //left
+            GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, firstPoint.Z);
+
+            GL.End();
+
+            GL.Color3(borderColor == null ? Color.Black : (Color)borderColor);
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, firstPoint.Y, secondPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(firstPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, firstPoint.Z);
+            GL.Vertex3(secondPoint.X, secondPoint.Y, secondPoint.Z);
+            GL.End();
+        }
         public static void DrawCube(Color color)
         {
             GL.Begin(PrimitiveType.Quads);
