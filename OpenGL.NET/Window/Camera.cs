@@ -43,6 +43,14 @@ namespace OpenGL
                 return Matrix4.LookAt(position, position + lookat, Vector3.UnitY);
             }
         }
+        public void Update()
+        {
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            var matrix = ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 70.0f), Window.Width / Window.Height, 1.0f, 300.0f);
+            GL.LoadMatrix(ref matrix);
+            GL.MatrixMode(MatrixMode.Modelview);
+        }
         public void Move(float x, float y, float z)
         {
             Vector3 offset = new Vector3();

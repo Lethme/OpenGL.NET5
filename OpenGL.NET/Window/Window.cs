@@ -52,12 +52,7 @@ namespace OpenGL
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 70.0f), Width / Height, 1.0f, 300.0f);
-            GL.LoadMatrix(ref matrix);
-            GL.MatrixMode(MatrixMode.Modelview);
-            base.OnUpdateFrame(e);
+            Camera.Update();
             Camera.ProcessInput();
 
             var keyboardState = Keyboard.GetState();
@@ -65,6 +60,8 @@ namespace OpenGL
             if (keyboardState.IsKeyDown(Key.E)) Rotation -= 1;
             if (keyboardState.IsKeyDown(Key.R)) Rotation = 0;
             if (Rotation <= -360 || Rotation >= 360) Rotation = 0;
+            
+            base.OnUpdateFrame(e);
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -90,11 +87,7 @@ namespace OpenGL
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            var matrix = Camera.ViewMatrix * Matrix4.CreatePerspectiveFieldOfView((((float)Math.PI / 180) * 70.0f), Width / Height, 1.0f, 300.0f);
-            GL.LoadMatrix(ref matrix);
-            GL.MatrixMode(MatrixMode.Modelview);
+            Camera.Update();
             base.OnResize(e);
         }
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
