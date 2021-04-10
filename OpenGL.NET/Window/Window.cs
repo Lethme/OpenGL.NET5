@@ -19,6 +19,7 @@ namespace OpenGL
 {
     public class OpenGLWindow : GameWindow
     {
+        public bool ShowNormals { get; private set; } = false;
         private FloatColor BackgroundColor { get; set; } = Color.Black;
         private double alpha { get; set; } = 0.0;
         private Camera Camera { get; set; }
@@ -58,15 +59,23 @@ namespace OpenGL
             GL.MatrixMode(MatrixMode.Modelview);
             base.OnUpdateFrame(e);
             Camera.ProcessInput();
+
+            var keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Key.Q)) Rotation += 1;
+            if (keyboardState.IsKeyDown(Key.E)) Rotation -= 1;
+            if (keyboardState.IsKeyDown(Key.R)) Rotation = 0;
+            if (Rotation <= -360 || Rotation >= 360) Rotation = 0;
         }
         protected override void OnLoad(EventArgs e)
         {
+            Graphics.Initialize(this);
+
             CursorVisible = false;
             CursorGrabbed = true;
 
             GL.ClearColor(BackgroundColor);
             GL.Enable(EnableCap.DepthTest);
-            
+
             this.Camera = new Camera(this);
             var mouseState = Mouse.GetState();
             Camera.LastMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -93,6 +102,15 @@ namespace OpenGL
             var keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Key.Escape)) this.Close();
         }
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            var keyboarState = Keyboard.GetState();
+            if (keyboarState.IsKeyDown(Key.N))
+            {
+                if (ShowNormals == true) ShowNormals = false;
+                else ShowNormals = true;
+            }
+        }
         protected override void OnFocusedChanged(EventArgs e)
         {
             base.OnFocusedChanged(e);
@@ -104,27 +122,21 @@ namespace OpenGL
             GL.LoadIdentity();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.Begin(PrimitiveType.Lines);
-            GL.LineWidth(10);
-            GL.Color3(Color.Red);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 80, 0);
-            GL.Color3(Color.Green);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(80, 0, 0);
-            GL.Color3(Color.Blue);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, 80);
-            GL.End();
-
-            if (Keyboard.GetState().IsKeyDown(Key.Q)) Rotation += 1;
-            if (Keyboard.GetState().IsKeyDown(Key.E)) Rotation -= 1;
-            if (Keyboard.GetState().IsKeyDown(Key.R)) Rotation = 0;
-            if (Rotation <= -360 || Rotation >= 360) Rotation = 0;
+            Graphics.DrawCoordinateSystem(80f);
 
             GL.PushMatrix();
             GL.Rotate(Rotation, 0, 0, 1);
             Objects.DrawBench();
+            GL.PopMatrix();
+
+            GL.PushMatrix();
+            GL.Translate(0, 100f, 0);
+            GL.Rotate(alpha * 3, 0, 0, 1);
+            Graphics.DrawCoordinateSystem(20f);
+            Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
+            Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
+            Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
+            Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
             GL.PopMatrix();
 
             Context.SwapBuffers();
