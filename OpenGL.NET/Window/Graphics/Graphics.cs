@@ -51,7 +51,7 @@ namespace OpenGL.Window.Graphics
             if (window == null) throw new ArgumentNullException($"{nameof(window)} can't be null reference!");
             Window = (OpenGLWindow)window;
         }
-        public static void DrawCoordinateSystem(float vectorLength = 10f)
+        public static void DrawCoordinatesSystem(float vectorLength = 10f)
         {
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color.Red);
@@ -142,89 +142,28 @@ namespace OpenGL.Window.Graphics
                 GL.Color3(Color.LightGray);
             }
         }
-        public static void sphere(double r, int nx, int ny)
+        public static void DrawCone(FloatPoint3 center, float radius, float height, Color? fillColor = null, Color? borderColor = null)
         {
-            int ix, iy;
-            double x, y, z, sy, cy, sy1, cy1, sx, cx, piy, pix, ay, ay1, ax, tx, ty, ty1, dnx, dny, diy;
-            dnx = 1.0 / (double)nx;
-            dny = 1.0 / (double)ny;
-            // Рисуем полигональную модель сферы, формируем нормали и задаем коодинаты текстуры
-            // Каждый полигон - это трапеция. Трапеции верхнего и нижнего слоев вырождаются в треугольники
-            GL.Begin(PrimitiveType.QuadStrip);
-            piy = Math.PI * dny;
-            pix = Math.PI * dnx;
-            for (iy = 0; iy < ny; iy++)
+            var segments = 360;
+            var points = new float[segments * 2];
+            var count = 0;
+            for (var angle = 0f; angle < 360; angle += segments / 360f)
             {
-                diy = (double)iy;
-                ay = diy * piy;
-                sy = Math.Sin(ay);
-                cy = Math.Cos(ay);
-                ty = diy * dny;
-                ay1 = ay + piy;
-                sy1 = Math.Sin(ay1);
-                cy1 = Math.Cos(ay1);
-                ty1 = ty + dny;
-                for (ix = 0; ix <= nx; ix++)
-                {
-                    ax = 2.0 * ix * pix;
-                    sx = Math.Sin(ax);
-                    cx = Math.Cos(ax);
-                    x = r * sy * cx;
-                    y = r * sy * sx;
-                    z = r * cy;
-                    tx = (double)ix * dnx;
-                    // Координаты нормали в текущей вершине
-                    GL.Normal3(x, y, z); // Нормаль направлена от центра
-                    // Координаты текстуры в текущей вершине
-                    GL.TexCoord2(tx, ty);
-                    GL.Vertex3(x, y, z);
-                    x = r * sy1 * cx;
-                    y = r * sy1 * sx;
-                    z = r * cy1;
-                    GL.Normal3(x, y, z);
-                    GL.TexCoord2(tx, ty1);
-                    GL.Vertex3(x, y, z);
-                }
+                points[count++] = (float)(center.X + Math.Cos(Math.PI / 180f * angle) * radius);
+                points[count++] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * radius);
             }
+
+            DrawCylinderBase(center - (0f, height / 2, 0f), radius, points, fillColor, borderColor);
+
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Vertex3(center.X, center.Y + height / 2, center.Z);
+            for (var i = 0; i < points.Length / 2 - 1; i++)
+            {
+                GL.Vertex3(points[i * 2], center.Y - height / 2, points[i * 2 + 1]);
+            }
+            GL.Vertex3(points[0], center.Y - height / 2, points[1]);
             GL.End();
-            // Показываем нормали
-            if (true)
-            {
-                double rv = 1.15 * r;
-                // Толщина линии, отображающей нормаль
-                GL.LineWidth(2);
-                GL.Color3(Color.White);
-                GL.Begin(PrimitiveType.Lines);
-                piy = Math.PI * dny;
-                pix = Math.PI * dnx;
-                for (iy = 0; iy < ny; iy++)
-                {
-                    diy = (double)iy;
-                    ay = diy * piy;
-                    sy = Math.Sin(ay);
-                    cy = Math.Cos(ay);
-                    ay1 = ay + piy;
-                    sy1 = Math.Sin(ay1);
-                    cy1 = Math.Cos(ay1);
-                    for (ix = 0; ix <= nx; ix++)
-                    {
-                        ax = 2.0 * ix * pix;
-                        sx = Math.Sin(ax);
-                        cx = Math.Cos(ax);
-                        x = r * sy * cx;
-                        y = r * sy * sx;
-                        z = r * cy;
-                        GL.Vertex3(x, y, z);
-                        x = rv * sy * cx;
-                        y = rv * sy * sx;
-                        z = rv * cy;
-                        GL.Vertex3(x, y, z);
-                    }
-                }
-                GL.End();
-                GL.LineWidth(1);
-                GL.Color3(Color.LightGray);
-            }
         }
         public static void DrawCylinder(FloatPoint3 center, float radius, float height, Color? fillColor = null, Color? borderColor = null)
         {
