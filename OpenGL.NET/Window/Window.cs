@@ -26,8 +26,8 @@ namespace OpenGL
         private int Rotation { get; set; } = 0;
         public OpenGLWindow
         (
-            int width,
-            int height,
+            int width = Settings.Window.WindowWidth,
+            int height = Settings.Window.WindowHeight,
             string title = Settings.Window.WindowTitle,
             int updateFrequency = Settings.Window.WindowUpdateFrequency,
             int renderFrequency = Settings.Window.WindowRenderFrequency,
@@ -35,20 +35,10 @@ namespace OpenGL
         )
             : base(width, height, GraphicsMode.Default, title)
         {
-            BackgroundColor = backgroundColor;
+            if (backgroundColor == null) BackgroundColor = Settings.Drawing.BackgroundColor;
+            else BackgroundColor = backgroundColor;
             TargetUpdateFrequency = updateFrequency;
             TargetRenderFrequency = renderFrequency;
-        }
-        public OpenGLWindow() : base
-        (
-            Settings.Window.WindowWidth,
-            Settings.Window.WindowHeight,
-            GraphicsMode.Default,
-            Settings.Window.WindowTitle
-        )
-        {
-            TargetUpdateFrequency = Settings.Window.WindowUpdateFrequency;
-            TargetRenderFrequency = Settings.Window.WindowRenderFrequency;
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -74,6 +64,10 @@ namespace OpenGL
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            //GL.Enable(EnableCap.Lighting);
+            //GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0, 40f, 20f });
+            //GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 1f, 1f, 1f });
+            //GL.Enable(EnableCap.Light0);
 
             this.Camera = new Camera(this);
             var mouseState = Mouse.GetState();
@@ -85,6 +79,8 @@ namespace OpenGL
         {
             GL.Disable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Blend);
+            //GL.Disable(EnableCap.Lighting);
+            //GL.Disable(EnableCap.Light0);
             base.OnUnload(e);
         }
         protected override void OnResize(EventArgs e)

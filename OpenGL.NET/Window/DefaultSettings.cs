@@ -14,7 +14,7 @@ namespace OpenGL
         public static class Window
         {
             public const int WindowWidth = 800;
-            public const int WindowHeight = 600;
+            public const int WindowHeight = 800;
             public const string WindowTitle = "OpenGL Application";
             public const int WindowUpdateFrequency = 60;
             public const int WindowRenderFrequency = 60;
@@ -24,6 +24,7 @@ namespace OpenGL
             public static Color FillColor { get; } = Color.White;
             public static Color BorderColor { get; } = Color.Black;
             public static Color NormalColor { get; } = Color.AliceBlue;
+            public static Color BackgroundColor { get; } = Color.Black;
         }
         public static class Camera
         {
