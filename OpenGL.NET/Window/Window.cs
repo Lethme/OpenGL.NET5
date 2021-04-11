@@ -72,6 +72,8 @@ namespace OpenGL
 
             GL.ClearColor(BackgroundColor);
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             this.Camera = new Camera(this);
             var mouseState = Mouse.GetState();
@@ -82,6 +84,7 @@ namespace OpenGL
         protected override void OnUnload(EventArgs e)
         {
             GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Blend);
             base.OnUnload(e);
         }
         protected override void OnResize(EventArgs e)
@@ -124,12 +127,18 @@ namespace OpenGL
 
             GL.PushMatrix();
             GL.Translate(0, 100f, 0);
-            GL.Rotate(alpha * 3, 0, 0, 1);
+            GL.Rotate(alpha * 5, 0, 0, 1);
             Graphics.DrawCoordinatesSystem(20f);
             Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
             Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
             Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
             Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
+            GL.PopMatrix();
+
+            GL.PushMatrix();
+            GL.Translate(0, 15f, 0);
+            Graphics.DrawCylinder((0, 0, 0), 1.5f, 5f, Color.Green);
+            Graphics.DrawSphere((0, 0, 0), 5f, Color.FromArgb(100, Color.HotPink));
             GL.PopMatrix();
 
             Context.SwapBuffers();

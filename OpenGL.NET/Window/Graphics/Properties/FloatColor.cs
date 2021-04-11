@@ -30,7 +30,7 @@ namespace OpenGL.Window.Graphics.Properties
             this.B = (float)b / 255;
             this.A = a;
         }
-        public FloatColor(Color? color, float alpha = 1f)
+        public FloatColor(Color? color, float alpha)
         {
             if (color == null) throw new ArgumentNullException();
             if (color == Color.Transparent)
@@ -46,6 +46,24 @@ namespace OpenGL.Window.Graphics.Properties
                 this.G = (float)color.Value.G / 255;
                 this.B = (float)color.Value.B / 255;
                 this.A = alpha;
+            }
+        }
+        public FloatColor(Color? color, int alpha)
+        {
+            if (color == null) throw new ArgumentNullException();
+            if (color == Color.Transparent)
+            {
+                this.R = -1f;
+                this.G = -1f;
+                this.B = -1f;
+                this.A = 0f;
+            }
+            else
+            {
+                this.R = (float)color.Value.R / 255;
+                this.G = (float)color.Value.G / 255;
+                this.B = (float)color.Value.B / 255;
+                this.A = (float)color.Value.A / 255;
             }
         }
         public override bool Equals(object obj)
@@ -70,9 +88,13 @@ namespace OpenGL.Window.Graphics.Properties
         }
         public static implicit operator FloatColor(Color? color)
         {
-            return FloatColor.Create(color);
+            return FloatColor.Create(color, 255);
         }
         public static implicit operator FloatColor((Color? color, float alpha) color)
+        {
+            return FloatColor.Create(color.color, color.alpha);
+        }
+        public static implicit operator FloatColor((Color? color, int alpha) color)
         {
             return FloatColor.Create(color.color, color.alpha);
         }
@@ -82,6 +104,7 @@ namespace OpenGL.Window.Graphics.Properties
         }
         public static FloatColor Create(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 1.0f) => new FloatColor(r, g, b, a);
         public static FloatColor Create(byte r = 0, byte g = 0, byte b = 0, float a = 1.0f) => new FloatColor(r, g, b, a);
-        public static FloatColor Create(Color? color, float alpha = 1f) => new FloatColor(color, alpha);
+        public static FloatColor Create(Color? color, float alpha) => new FloatColor(color, alpha);
+        public static FloatColor Create(Color? color, int alpha) => new FloatColor(color, alpha);
     }
 }

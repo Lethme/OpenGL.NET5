@@ -54,13 +54,13 @@ namespace OpenGL.Window.Graphics
         public static void DrawCoordinatesSystem(float vectorLength = 10f)
         {
             GL.Begin(PrimitiveType.Lines);
-            GL.Color3(Color.Red);
+            GL.Color4(Color.Red);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(0, vectorLength, 0);
-            GL.Color3(Color.Green);
+            GL.Color4(Color.Green);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(vectorLength, 0, 0);
-            GL.Color3(Color.Blue);
+            GL.Color4(Color.Blue);
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(0, 0, vectorLength);
             GL.End();
@@ -75,7 +75,7 @@ namespace OpenGL.Window.Graphics
             // Рисуем полигональную модель сферы, формируем нормали и задаем коодинаты текстуры
             // Каждый полигон - это трапеция. Трапеции верхнего и нижнего слоев вырождаются в треугольники
             GL.Begin(PrimitiveType.QuadStrip);
-            GL.Color3(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
             piy = Math.PI * dny;
             pix = Math.PI * dnx;
             for (iy = 0; iy < ny; iy++)
@@ -112,7 +112,7 @@ namespace OpenGL.Window.Graphics
                 double rv = 1.15 * radius;
                 // Толщина линии, отображающей нормаль
                 GL.LineWidth(1);
-                GL.Color3(normalColor == null ? Settings.Drawing.NormalColor : (Color)normalColor);
+                GL.Color4(normalColor == null ? Settings.Drawing.NormalColor : (Color)normalColor);
                 GL.Begin(PrimitiveType.Lines);
                 piy = Math.PI * dny;
                 pix = Math.PI * dnx;
@@ -139,7 +139,7 @@ namespace OpenGL.Window.Graphics
                 }
                 GL.End();
                 GL.LineWidth(1);
-                GL.Color3(Color.LightGray);
+                GL.Color4(Color.LightGray);
             }
         }
         public static void DrawCone(FloatPoint3 center, float radius, float height, Color? fillColor = null, Color? borderColor = null)
@@ -156,7 +156,7 @@ namespace OpenGL.Window.Graphics
             DrawCylinderBase(center - (0f, height / 2, 0f), radius, points, fillColor, borderColor);
 
             GL.Begin(PrimitiveType.TriangleFan);
-            GL.Color3(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
             GL.Vertex3(center.X, center.Y + height / 2, center.Z);
             for (var i = 0; i < points.Length / 2 - 1; i++)
             {
@@ -180,7 +180,7 @@ namespace OpenGL.Window.Graphics
             DrawCylinderBase(center + (0f, height / 2, 0f), radius, points, fillColor, borderColor);
 
             GL.Begin(PrimitiveType.Quads);
-            GL.Color3(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
             for (var i = 0; i < points.Length / 2 - 1; i++)
             {
                 GL.Vertex3(points[i * 2], center.Y + height / 2, points[i * 2 + 1]);
@@ -197,7 +197,7 @@ namespace OpenGL.Window.Graphics
         private static void DrawCylinderBase(FloatPoint3 center, float radius, float[] points, Color? fillColor = null, Color? borderColor = null)
         {
             GL.Begin(PrimitiveType.TriangleFan);
-            GL.Color3(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
             GL.Vertex3(center.X, center.Y, center.Z);
             for (var i = 0; i < points.Length / 2; i++)
             {
@@ -207,7 +207,7 @@ namespace OpenGL.Window.Graphics
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
-            GL.Color3(borderColor == null ? Settings.Drawing.BorderColor : (Color)borderColor);
+            GL.Color4(borderColor == null ? Settings.Drawing.BorderColor : (Color)borderColor);
             for (var i = 0; i < points.Length / 2; i++)
             {
                 GL.Vertex3(points[i * 2], center.Y, points[i * 2 + 1]);
@@ -217,7 +217,7 @@ namespace OpenGL.Window.Graphics
         public static void DrawParallelepiped(FloatPoint3 firstPoint, FloatPoint3 secondPoint, Color? fillColor = null, Color? borderColor = null)
         {
             GL.Begin(PrimitiveType.Quads);
-            GL.Color3(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
             //front
             GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
             GL.Vertex3(secondPoint.X, firstPoint.Y, firstPoint.Z);
@@ -251,7 +251,7 @@ namespace OpenGL.Window.Graphics
 
             GL.End();
 
-            GL.Color3(borderColor == null ? Settings.Drawing.BorderColor : (Color)borderColor);
+            GL.Color4(borderColor == null ? Settings.Drawing.BorderColor : (Color)borderColor);
 
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex3(firstPoint.X, firstPoint.Y, firstPoint.Z);
