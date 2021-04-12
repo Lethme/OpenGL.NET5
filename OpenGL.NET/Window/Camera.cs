@@ -9,7 +9,7 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenGL.Window.Camera;
+namespace OpenGL.Window.Camera
 {
     public class Camera
     {
