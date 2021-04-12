@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using OpenGL.Window.Graphics.Properties;
+
 namespace OpenGL
 {
     class Program

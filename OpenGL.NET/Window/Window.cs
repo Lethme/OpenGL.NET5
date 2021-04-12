@@ -12,6 +12,7 @@ using OpenTK.Graphics.OpenGL;
 
 using Graphics = OpenGL.Window.Graphics.Graphics;
 using Objects = OpenGL.Window.Graphics.Objects;
+using OpenGL.Window.Camera;
 using OpenGL.Window.Graphics;
 using OpenGL.Window.Graphics.Properties;
 

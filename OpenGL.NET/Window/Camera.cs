@@ -9,9 +9,9 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenGL
+namespace OpenGL.Window.Camera;
 {
-    class Camera
+    public class Camera
     {
         private Vector3 position = Settings.Camera.InitialPosition;
         private Vector3 orientation = Settings.Camera.InitialOrientation;
