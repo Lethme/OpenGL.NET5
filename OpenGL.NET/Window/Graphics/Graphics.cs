@@ -153,7 +153,7 @@ namespace OpenGL.Window.Graphics
                 points[count++] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * radius);
             }
 
-            DrawCylinderBase(center - (0f, height / 2, 0f), radius, points, fillColor, borderColor);
+            DrawCylinderBase(center - (0f, height / 2, 0f), points, fillColor, borderColor);
 
             GL.Begin(PrimitiveType.TriangleFan);
             GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
@@ -176,8 +176,8 @@ namespace OpenGL.Window.Graphics
                 points[count++] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * radius);
             }
 
-            DrawCylinderBase(center - (0f, height / 2, 0f), radius, points, fillColor, borderColor);
-            DrawCylinderBase(center + (0f, height / 2, 0f), radius, points, fillColor, borderColor);
+            DrawCylinderBase(center - (0f, height / 2, 0f), points, fillColor, borderColor);
+            DrawCylinderBase(center + (0f, height / 2, 0f), points, fillColor, borderColor);
 
             GL.Begin(PrimitiveType.Quads);
             GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
@@ -194,7 +194,75 @@ namespace OpenGL.Window.Graphics
             GL.Vertex3(points[points.Length - 2], center.Y + height / 2, points[points.Length - 1]);
             GL.End();
         }
-        private static void DrawCylinderBase(FloatPoint3 center, float radius, float[] points, Color? fillColor = null, Color? borderColor = null)
+        public static void DrawCylinder(FloatPoint3 center, float topRadius, float bottomRadius, float height, Color? fillColor = null, Color? borderColor = null)
+        {
+            var segments = 360;
+            var topPoints = new float[segments * 2];
+            var bottomPoints = new float[segments * 2];
+            var arrayLength = topPoints.Length;
+            var count = 0;
+            for (var angle = 0f; angle < 360; angle += segments / 360f)
+            {
+                topPoints[count] = (float)(center.X + Math.Cos(Math.PI / 180f * angle) * topRadius);
+                topPoints[count + 1] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * topRadius);
+                bottomPoints[count] = (float)(center.X + Math.Cos(Math.PI / 180f * angle) * bottomRadius);
+                bottomPoints[count + 1] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * bottomRadius);
+                count += 2;
+            }
+
+            DrawCylinderBase(center - (0f, height / 2, 0f), bottomPoints, fillColor, borderColor);
+            DrawCylinderBase(center + (0f, height / 2, 0f), topPoints, fillColor, borderColor);
+
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            for (var i = 0; i < arrayLength / 2 - 1; i++)
+            {
+                GL.Vertex3(topPoints[i * 2], center.Y + height / 2, topPoints[i * 2 + 1]);
+                GL.Vertex3(bottomPoints[i * 2], center.Y - height / 2, bottomPoints[i * 2 + 1]);
+                GL.Vertex3(bottomPoints[i * 2 + 2], center.Y - height / 2, bottomPoints[i * 2 + 3]);
+                GL.Vertex3(topPoints[i * 2 + 2], center.Y + height / 2, topPoints[i * 2 + 3]);
+            }
+            GL.Vertex3(topPoints[0], center.Y + height / 2, topPoints[1]);
+            GL.Vertex3(bottomPoints[0], center.Y - height / 2, bottomPoints[1]);
+            GL.Vertex3(bottomPoints[arrayLength - 2], center.Y - height / 2, bottomPoints[arrayLength - 1]);
+            GL.Vertex3(topPoints[arrayLength - 2], center.Y + height / 2, topPoints[arrayLength - 1]);
+            GL.End();
+        }
+        public static void DrawCylinder(FloatPoint3 center, float topHorizontalRadius, float topVerticalRadius, float bottomHorizontalRadius, float bottomVerticalRadius, float height, Color? fillColor = null, Color? borderColor = null)
+        {
+            var segments = 360;
+            var topPoints = new float[segments * 2];
+            var bottomPoints = new float[segments * 2];
+            var arrayLength = topPoints.Length;
+            var count = 0;
+            for (var angle = 0f; angle < 360; angle += segments / 360f)
+            {
+                topPoints[count] = (float)(center.X + Math.Cos(Math.PI / 180f * angle) * topHorizontalRadius);
+                topPoints[count + 1] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * topVerticalRadius);
+                bottomPoints[count] = (float)(center.X + Math.Cos(Math.PI / 180f * angle) * bottomHorizontalRadius);
+                bottomPoints[count + 1] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * bottomVerticalRadius);
+                count += 2;
+            }
+
+            DrawCylinderBase(center - (0f, height / 2, 0f), bottomPoints, fillColor, borderColor);
+            DrawCylinderBase(center + (0f, height / 2, 0f), topPoints, fillColor, borderColor);
+
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            for (var i = 0; i < arrayLength / 2 - 1; i++)
+            {
+                GL.Vertex3(topPoints[i * 2], center.Y + height / 2, topPoints[i * 2 + 1]);
+                GL.Vertex3(bottomPoints[i * 2], center.Y - height / 2, bottomPoints[i * 2 + 1]);
+                GL.Vertex3(bottomPoints[i * 2 + 2], center.Y - height / 2, bottomPoints[i * 2 + 3]);
+                GL.Vertex3(topPoints[i * 2 + 2], center.Y + height / 2, topPoints[i * 2 + 3]);
+            }
+            GL.Vertex3(topPoints[0], center.Y + height / 2, topPoints[1]);
+            GL.Vertex3(bottomPoints[0], center.Y - height / 2, bottomPoints[1]);
+            GL.Vertex3(bottomPoints[arrayLength - 2], center.Y - height / 2, bottomPoints[arrayLength - 1]);
+            GL.Vertex3(topPoints[arrayLength - 2], center.Y + height / 2, topPoints[arrayLength - 1]);
+            GL.End();
+        }
+        private static void DrawCylinderBase(FloatPoint3 center, float[] points, Color? fillColor = null, Color? borderColor = null)
         {
             GL.Begin(PrimitiveType.TriangleFan);
             GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
