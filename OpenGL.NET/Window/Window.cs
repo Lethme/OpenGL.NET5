@@ -133,7 +133,7 @@ namespace OpenGL
 
             GL.PushMatrix();
             GL.Translate(0, 15f, 0);
-            Graphics.DrawCylinder((0, 0, 0), 1.5f, 5f, Color.Green);
+            Graphics.DrawCylinder((0, 0, 0), 1.5f, 2f, 5f, Color.Green);
             Graphics.DrawSphere((0, 0, 0), 5f, Color.FromArgb(100, Color.HotPink));
             GL.PopMatrix();
 
