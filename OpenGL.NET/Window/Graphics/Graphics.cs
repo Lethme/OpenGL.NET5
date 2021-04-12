@@ -165,6 +165,29 @@ namespace OpenGL.Window.Graphics
             GL.Vertex3(points[0], center.Y - height / 2, points[1]);
             GL.End();
         }
+        public static void DrawCone(FloatPoint3 center, float horizontalRadius, float verticalRadius, float height, Color? fillColor = null, Color? borderColor = null)
+        {
+            var segments = 360;
+            var points = new float[segments * 2];
+            var count = 0;
+            for (var angle = 0f; angle < 360; angle += segments / 360f)
+            {
+                points[count++] = (float)(center.X + Math.Cos(Math.PI / 180f * angle) * horizontalRadius);
+                points[count++] = (float)(center.Z + Math.Sin(Math.PI / 180f * angle) * verticalRadius);
+            }
+
+            DrawCylinderBase(center - (0f, height / 2, 0f), points, fillColor, borderColor);
+
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Vertex3(center.X, center.Y + height / 2, center.Z);
+            for (var i = 0; i < points.Length / 2 - 1; i++)
+            {
+                GL.Vertex3(points[i * 2], center.Y - height / 2, points[i * 2 + 1]);
+            }
+            GL.Vertex3(points[0], center.Y - height / 2, points[1]);
+            GL.End();
+        }
         public static void DrawCylinder(FloatPoint3 center, float radius, float height, Color? fillColor = null, Color? borderColor = null)
         {
             var segments = 360;

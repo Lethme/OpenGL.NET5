@@ -13,11 +13,11 @@ namespace OpenGL
     {
         public static class Window
         {
-            public const int WindowWidth = 800;
-            public const int WindowHeight = 800;
-            public const string WindowTitle = "OpenGL Application";
-            public const int WindowUpdateFrequency = 60;
-            public const int WindowRenderFrequency = 60;
+            public const int Width = 800;
+            public const int Height = 800;
+            public const string Title = "OpenGL Application";
+            public const int UpdateFrequency = 60;
+            public const int RenderFrequency = 60;
         }
         public static class Drawing
         {

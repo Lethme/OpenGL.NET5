@@ -27,11 +27,11 @@ namespace OpenGL
         private int Rotation { get; set; } = 0;
         public OpenGLWindow
         (
-            int width = Settings.Window.WindowWidth,
-            int height = Settings.Window.WindowHeight,
-            string title = Settings.Window.WindowTitle,
-            int updateFrequency = Settings.Window.WindowUpdateFrequency,
-            int renderFrequency = Settings.Window.WindowRenderFrequency,
+            int width = Settings.Window.Width,
+            int height = Settings.Window.Height,
+            string title = Settings.Window.Title,
+            int updateFrequency = Settings.Window.UpdateFrequency,
+            int renderFrequency = Settings.Window.RenderFrequency,
             FloatColor backgroundColor = null
         )
             : base(width, height, GraphicsMode.Default, title)
@@ -115,27 +115,32 @@ namespace OpenGL
             GL.LoadIdentity();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            Graphics.DrawCoordinatesSystem(80f);
+            //Graphics.DrawCoordinatesSystem(80f);
 
             GL.PushMatrix();
             GL.Rotate(Rotation, 0, 0, 1);
             Objects.DrawBench();
             GL.PopMatrix();
 
-            GL.PushMatrix();
-            GL.Translate(0, 100f, 0);
-            GL.Rotate(alpha * 5, 0, 0, 1);
-            Graphics.DrawCoordinatesSystem(20f);
-            Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
-            Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
-            Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
-            Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
-            GL.PopMatrix();
+            //GL.PushMatrix();
+            //GL.Translate(0, 100f, 0);
+            //GL.Rotate(alpha * 5, 0, 0, 1);
+            //Graphics.DrawCoordinatesSystem(20f);
+            //Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
+            //Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
+            //Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
+            //Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
+            //GL.PopMatrix();
 
             GL.PushMatrix();
             GL.Translate(0, 15f, 0);
             Graphics.DrawCylinder((0, 0, 0), 1.5f, 2f, 5f, Color.Green);
             Graphics.DrawSphere((0, 0, 0), 5f, Color.FromArgb(100, Color.HotPink));
+            GL.PopMatrix();
+
+            GL.PushMatrix();
+            GL.Translate(0, -12f, 0);
+            Graphics.DrawParallelepiped((-100f, 0, 60f), (100f, -5f, -60f), Color.Gray, Color.Black);
             GL.PopMatrix();
 
             Context.SwapBuffers();

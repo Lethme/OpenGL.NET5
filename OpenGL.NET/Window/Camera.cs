@@ -50,6 +50,7 @@ namespace OpenGL.Window.Camera
             var matrix = ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 70.0f), Window.Width / Window.Height, 1.0f, 300.0f);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
         }
         public void Move(float x, float y, float z)
         {
