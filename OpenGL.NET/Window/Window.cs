@@ -42,7 +42,7 @@ namespace OpenGL
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            Camera.Update();
+            Camera.UpdateState();
             Camera.ProcessInput();
 
             var keyboardState = Keyboard.GetState();
@@ -86,7 +86,7 @@ namespace OpenGL
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
-            Camera.Update();
+            Camera.UpdateState();
             base.OnResize(e);
         }
         protected override void OnKeyDown(KeyboardKeyEventArgs e)

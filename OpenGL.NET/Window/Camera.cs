@@ -43,7 +43,7 @@ namespace OpenGL
                 return Matrix4.LookAt(position, position + lookat, Vector3.UnitY);
             }
         }
-        public void Update()
+        public void UpdateState()
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
