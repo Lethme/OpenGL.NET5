@@ -305,6 +305,105 @@ namespace OpenGL.Window.Graphics
             }
             GL.End();
         }
+        public static void DrawTruncatedPyramid(FloatPoint3 center, float topBaseWidth, float topBaseHeight, float bottomBaseWidth, float bottomBaseHeight, float pyramidHeight, Color? fillColor = null, Color? borderColor = null)
+        {
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Quads);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Color4(borderColor == null ? Settings.Drawing.BorderColor : (Color)borderColor);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z + bottomBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z + topBaseHeight / 2);
+            GL.Vertex3(center.X + bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X + topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.Vertex3(center.X - bottomBaseWidth / 2, center.Y - pyramidHeight / 2, center.Z - bottomBaseHeight / 2);
+            GL.Vertex3(center.X - topBaseWidth / 2, center.Y + pyramidHeight / 2, center.Z - topBaseHeight / 2);
+            GL.End();
+        }
+        public static void DrawPyramid(FloatPoint3 center, float baseWidth, float baseHeight, float pyramidHeight, Color? fillColor = null, Color? borderColor = null)
+        {
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Vertex3(center.X, center.Y + pyramidHeight / 2, center.Z);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Color4(borderColor == null ? Settings.Drawing.BorderColor : (Color)borderColor);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex3(center.X, center.Y + pyramidHeight / 2, center.Z);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.Vertex3(center.X, center.Y + pyramidHeight / 2, center.Z);
+            GL.Vertex3(center.X - baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X, center.Y + pyramidHeight / 2, center.Z);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z - baseHeight / 2);
+            GL.Vertex3(center.X, center.Y + pyramidHeight / 2, center.Z);
+            GL.Vertex3(center.X + baseWidth / 2, center.Y - pyramidHeight / 2, center.Z + baseHeight / 2);
+            GL.End();
+        }
         public static void DrawParallelepiped(FloatPoint3 firstPoint, FloatPoint3 secondPoint, Color? fillColor = null, Color? borderColor = null)
         {
             GL.Begin(PrimitiveType.Quads);

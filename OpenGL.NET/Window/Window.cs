@@ -25,6 +25,7 @@ namespace OpenGL
         private double alpha { get; set; } = 0.0;
         private Camera Camera { get; set; }
         private int Rotation { get; set; } = 0;
+        private FloatPoint3 LightPosition { get; set; } = (30f, 150f, -30f);
         public OpenGLWindow
         (
             int width = Settings.Window.Width,
@@ -65,10 +66,6 @@ namespace OpenGL
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            //GL.Enable(EnableCap.Lighting);
-            //GL.Light(LightName.Light0, LightParameter.Position, new float[] { 0, 40f, 20f });
-            //GL.Light(LightName.Light0, LightParameter.Ambient, new float[] { 1f, 1f, 1f });
-            //GL.Enable(EnableCap.Light0);
 
             this.Camera = new Camera(this);
             var mouseState = Mouse.GetState();
@@ -80,8 +77,6 @@ namespace OpenGL
         {
             GL.Disable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Blend);
-            //GL.Disable(EnableCap.Lighting);
-            //GL.Disable(EnableCap.Light0);
             base.OnUnload(e);
         }
         protected override void OnResize(EventArgs e)
@@ -141,6 +136,17 @@ namespace OpenGL
             GL.PushMatrix();
             GL.Translate(0, -12f, 0);
             Graphics.DrawParallelepiped((-100f, 0, 60f), (100f, -5f, -60f), Color.Gray, Color.Black);
+            GL.PopMatrix();
+
+            GL.PushMatrix();
+            GL.Translate(-50f, 0, 0);
+            Graphics.DrawPyramid((0, 5f, 0), 10f, 10f, 10f, Color.Yellow, Color.Black);
+            GL.PopMatrix();
+
+            GL.PushMatrix();
+            GL.Translate(-80f, 0, 0);
+            Graphics.DrawTruncatedPyramid((0, 5f, 0), 5f, 7f, 10f, 7f, 10f, Color.Green, Color.Black);
+            Graphics.DrawSphere((0, 5f, 0), 1f, Color.Red);
             GL.PopMatrix();
 
             Context.SwapBuffers();

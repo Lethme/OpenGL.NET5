@@ -109,11 +109,11 @@ namespace OpenGL.Window.Camera
             {
                 Move(0f, 0f, 0.1f);
             }
-            if (keyboardState.IsKeyDown(Key.ShiftLeft))
+            if (keyboardState.IsKeyDown(Key.ControlLeft))
             {
                 Move(0f, 0f, -0.1f);
             }
-            if (keyboardState.IsKeyDown(Key.ControlLeft)) this.MoveSpeed = Settings.Camera.MoveSpeedAccelerated;
+            if (keyboardState.IsKeyDown(Key.ShiftLeft)) this.MoveSpeed = Settings.Camera.MoveSpeedAccelerated;
             else this.MoveSpeed = Settings.Camera.MoveSpeed;
         }
     }

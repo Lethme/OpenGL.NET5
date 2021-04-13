@@ -22,7 +22,7 @@ namespace OpenGL
         public static class Drawing
         {
             public static Color FillColor { get; } = Color.White;
-            public static Color BorderColor { get; } = Color.Black;
+            public static Color BorderColor { get; } = Color.Transparent;
             public static Color NormalColor { get; } = Color.AliceBlue;
             public static Color BackgroundColor { get; } = Color.Black;
         }

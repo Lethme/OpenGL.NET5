@@ -51,6 +51,10 @@ namespace OpenGL.Window.Graphics.Properties
         {
             return new FloatPoint3(point.X, point.Y, point.Z);
         }
+        public static implicit operator float[](FloatPoint3 point)
+        {
+            return new float[] { point.X, point.Y, point.Z };
+        }
         public static FloatPoint3 Create(float x = 0.0f, float y = 0.0f, float z = 0.0f) => new FloatPoint3(x, y, z);
     }
 }
