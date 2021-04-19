@@ -79,8 +79,6 @@ namespace OpenGL.Window.Camera
             offset.NormalizeFast();
             offset = Vector3.Multiply(offset, MoveSpeed);
 
-            Console.WriteLine($"{offset.X} {offset.Y} {offset.Z}");
-
             position += offset;
         }
         public void Rotate(float x, float y)

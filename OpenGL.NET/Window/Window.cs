@@ -103,10 +103,6 @@ namespace OpenGL
                 if (Camera.VerticalMovement) Camera.VerticalMovement = false;
                 else Camera.VerticalMovement = true;
             }
-            if (keyboardState.IsKeyDown(Key.O))
-            {
-                Console.WriteLine($"{Camera.Orientation.X} {Camera.Orientation.Y} {Camera.Orientation.Z}");
-            }
         }
         protected override void OnFocusedChanged(EventArgs e)
         {
