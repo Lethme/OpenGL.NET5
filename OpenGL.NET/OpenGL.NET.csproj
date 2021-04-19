@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A3E390DC-58A4-4D56-8D72-FB721FE7E34A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>OpenGL.NET</RootNamespace>
     <AssemblyName>OpenGL.NET</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>

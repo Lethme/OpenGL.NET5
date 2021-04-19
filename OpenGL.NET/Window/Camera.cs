@@ -13,6 +13,7 @@ namespace OpenGL.Window.Camera
 {
     public class Camera
     {
+        private float fov = Settings.Camera.Fov;
         private Vector3 position = Settings.Camera.InitialPosition;
         private Vector3 orientation = Settings.Camera.InitialOrientation;
         private Vector2 lastMousePos = new Vector2();
@@ -27,6 +28,17 @@ namespace OpenGL.Window.Camera
             if (initialPosition != null) this.position = (Vector3)initialPosition;
             if (initialOrientation != null) this.orientation = (Vector3)initialOrientation;
         }
+        public float Fov 
+        { 
+            get { return fov; } 
+            set
+            {
+                if (value < Settings.Camera.MinFov || value > Settings.Camera.MaxFov)
+                    throw new ArgumentException($"Camera fov must be in specified range: [{Settings.Camera.MinFov}; {Settings.Camera.MaxFov}]!");
+                fov = value;
+            } 
+        }
+        public bool VerticalMovement { get; set; } = false;
         public Vector3 Position { get { return position; } set { position = value; } }
         public Vector3 Orientation { get { return orientation; } set { orientation = value; } }
         public Vector2 LastMousePos { get { return lastMousePos; } set { lastMousePos = value; } }
@@ -43,11 +55,12 @@ namespace OpenGL.Window.Camera
                 return Matrix4.LookAt(position, position + lookat, Vector3.UnitY);
             }
         }
+        private bool VerticalDirection => orientation.Y == MathHelper.PiOver2 - 0.0001f || orientation.Y == -MathHelper.PiOver2 + 0.0001f;
         public void UpdateState()
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            var matrix = ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * 70.0f), Window.Width / Window.Height, 1.0f, 300.0f);
+            var matrix = ViewMatrix * Matrix4.CreatePerspectiveFieldOfView(((MathHelper.Pi / 180) * fov), Window.Width / Window.Height, 1.0f, 300.0f);
             GL.LoadMatrix(ref matrix);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
@@ -56,7 +69,7 @@ namespace OpenGL.Window.Camera
         {
             Vector3 offset = new Vector3();
 
-            Vector3 forward = new Vector3((float)Math.Sin((float)orientation.X), 0, (float)Math.Cos((float)orientation.X));
+            Vector3 forward = new Vector3(VerticalDirection ? 0 : (float)Math.Sin(orientation.X), VerticalMovement ? (float)Math.Sin(orientation.Y) : 0, VerticalDirection ? 0 : (float)Math.Cos(orientation.X));
             Vector3 right = new Vector3(-forward.Z, 0, forward.X);
 
             offset += x * right;
@@ -66,6 +79,8 @@ namespace OpenGL.Window.Camera
             offset.NormalizeFast();
             offset = Vector3.Multiply(offset, MoveSpeed);
 
+            Console.WriteLine($"{offset.X} {offset.Y} {offset.Z}");
+
             position += offset;
         }
         public void Rotate(float x, float y)
@@ -74,7 +89,7 @@ namespace OpenGL.Window.Camera
             y *= MouseSensitivity;
 
             orientation.X = (orientation.X + x) % ((float)Math.PI * 2.0f);
-            orientation.Y = Math.Max(Math.Min(orientation.Y + y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
+            orientation.Y = Math.Max(Math.Min(orientation.Y + y, MathHelper.PiOver2 - 0.0001f), -MathHelper.PiOver2 + 0.0001f);
         }
         public void ProcessInput()
         {
@@ -113,8 +128,14 @@ namespace OpenGL.Window.Camera
             {
                 Move(0f, 0f, -0.1f);
             }
-            if (keyboardState.IsKeyDown(Key.ShiftLeft)) this.MoveSpeed = Settings.Camera.MoveSpeedAccelerated;
-            else this.MoveSpeed = Settings.Camera.MoveSpeed;
+            if (keyboardState.IsKeyDown(Key.ShiftLeft))
+            {
+                this.MoveSpeed = Settings.Camera.MoveSpeedAccelerated;
+            }
+            else
+            {
+                this.MoveSpeed = Settings.Camera.MoveSpeed;
+            }
         }
     }
 }

@@ -30,6 +30,9 @@ namespace OpenGL
         {
             public static Vector3 InitialPosition { get; } = new Vector3(0, 10.0f, 45.0f);
             public static Vector3 InitialOrientation { get; } = new Vector3(MathHelper.Pi, -MathHelper.PiOver4 / 4, 0f);
+            public const float Fov = 70f;
+            public const float MinFov = 30f;
+            public const float MaxFov = 120f;
             public const float MoveSpeed = 0.4f;
             public const float MoveSpeedAcceleration = 2.5f;
             public const float MoveSpeedAccelerated = MoveSpeed * MoveSpeedAcceleration;

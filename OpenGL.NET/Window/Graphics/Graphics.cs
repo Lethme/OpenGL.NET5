@@ -51,6 +51,12 @@ namespace OpenGL.Window.Graphics
             if (window == null) throw new ArgumentNullException($"{nameof(window)} can't be null reference!");
             Window = (OpenGLWindow)window;
         }
+        public static void CreateCoordinatesSystem(Action action)
+        {
+            GL.PushMatrix();
+            action.Invoke();
+            GL.PopMatrix();
+        }
         public static void DrawCoordinatesSystem(float vectorLength = 10f)
         {
             GL.Begin(PrimitiveType.Lines);
