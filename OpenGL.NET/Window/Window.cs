@@ -115,7 +115,7 @@ namespace OpenGL
             GL.LoadIdentity();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            Graphics.DrawCoordinatesSystem(80f);
+            //Graphics.DrawCoordinatesSystem(80f);
 
             Graphics.CreateCoordinatesSystem(() =>
             {
@@ -123,16 +123,16 @@ namespace OpenGL
                 Objects.DrawBench();
             });
 
-            Graphics.CreateCoordinatesSystem(() =>
-            {
-                GL.Translate(0, 100f, 0);
-                GL.Rotate(alpha * 5, 0, 0, 1);
-                Graphics.DrawCoordinatesSystem(20f);
-                Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
-                Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
-                Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
-                Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
-            });
+            //Graphics.CreateCoordinatesSystem(() =>
+            //{
+            //    GL.Translate(0, 100f, 0);
+            //    GL.Rotate(alpha * 5, 0, 0, 1);
+            //    Graphics.DrawCoordinatesSystem(20f);
+            //    Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
+            //    Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
+            //    Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
+            //    Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
+            //});
 
             Graphics.CreateCoordinatesSystem(() =>
             {
@@ -159,29 +159,6 @@ namespace OpenGL
                 Graphics.DrawTruncatedPyramid((0, 5f, 0), 5f, 15f, 10f, 7f, 10f, Color.Green, Color.Black);
                 Graphics.DrawSphere((0, 5f, 0), 1f, Color.Red);
             });
-
-            //Graphics.CreateCoordinatesSystem(() =>
-            //{
-            //    GL.Translate(0, 20f, 90f);
-
-            //    Graphics.CreateCoordinatesSystem(() =>
-            //    {
-            //        Graphics.DrawSphere((0, 0, 20f), 7f, Color.FromArgb(100, Color.GreenYellow));
-            //    });
-
-            //    Graphics.CreateCoordinatesSystem(() =>
-            //    {
-            //        Graphics.DrawParallelepiped((-10f, 5f, 0.1f), (10f, -5f, -0.1f), Color.Transparent);
-            //    });
-
-            //    GL.Begin(PrimitiveType.Quads);
-            //    GL.Color3(Color.Brown);
-            //    GL.Vertex3(-30f, -25f, 0);
-            //    GL.Vertex3(30f, -25f, 0);
-            //    GL.Vertex3(30f, 25f, 0);
-            //    GL.Vertex3(-30f, 25f, 0);
-            //    GL.End();
-            //});
 
             Context.SwapBuffers();
 
