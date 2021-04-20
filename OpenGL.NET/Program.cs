@@ -1,5 +1,4 @@
-﻿using OpenGL.Window.Graphics.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;

@@ -11,6 +11,8 @@ using OpenTK.Graphics.OpenGL;
 
 namespace OpenGL.Window.Camera
 {
+    public delegate void CameraMove(Vector3 lastPosition);
+    public delegate void CameraRotate(Vector3 lastOrientation);
     public class Camera
     {
         private float fov = Settings.Camera.Fov;
@@ -55,6 +57,8 @@ namespace OpenGL.Window.Camera
                 return Matrix4.LookAt(position, position + lookat, Vector3.UnitY);
             }
         }
+        public event CameraMove OnCameraMove = (p) => { };
+        public event CameraRotate OnCameraRotate = (o) => { };
         private bool VerticalDirection => orientation.Y == MathHelper.PiOver2 - 0.0001f || orientation.Y == -MathHelper.PiOver2 + 0.0001f;
         public void UpdateState()
         {
@@ -67,6 +71,8 @@ namespace OpenGL.Window.Camera
         }
         public void Move(float x, float y, float z)
         {
+            var tempPosition = new Vector3(position);
+
             Vector3 offset = new Vector3();
 
             Vector3 forward = new Vector3((float)Math.Sin(orientation.X), VerticalMovement ? (float)Math.Sin(orientation.Y) : 0, (float)Math.Cos(orientation.X));
@@ -80,14 +86,20 @@ namespace OpenGL.Window.Camera
             offset = Vector3.Multiply(offset, MoveSpeed);
 
             position += offset;
+
+            OnCameraMove(tempPosition);
         }
         public void Rotate(float x, float y)
         {
+            var tempOrientation = new Vector3(orientation);
+
             x *= MouseSensitivity;
             y *= MouseSensitivity;
 
             orientation.X = (orientation.X + x) % ((float)Math.PI * 2.0f);
             orientation.Y = Math.Max(Math.Min(orientation.Y + y, MathHelper.PiOver2 - 0.0001f), -MathHelper.PiOver2 + 0.0001f);
+
+            OnCameraRotate(tempOrientation);
         }
         public void ProcessInput()
         {
