@@ -69,7 +69,7 @@ namespace OpenGL.Window.Camera
         {
             Vector3 offset = new Vector3();
 
-            Vector3 forward = new Vector3(VerticalDirection ? 0 : (float)Math.Sin(orientation.X), VerticalMovement ? (float)Math.Sin(orientation.Y) : 0, VerticalDirection ? 0 : (float)Math.Cos(orientation.X));
+            Vector3 forward = new Vector3((float)Math.Sin(orientation.X), VerticalMovement ? (float)Math.Sin(orientation.Y) : 0, (float)Math.Cos(orientation.X));
             Vector3 right = new Vector3(-forward.Z, 0, forward.X);
 
             offset += x * right;

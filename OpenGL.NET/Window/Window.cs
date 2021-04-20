@@ -115,7 +115,7 @@ namespace OpenGL
             GL.LoadIdentity();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            //Graphics.DrawCoordinatesSystem(80f);
+            Graphics.DrawCoordinatesSystem(80f);
 
             Graphics.CreateCoordinatesSystem(() =>
             {
@@ -123,16 +123,16 @@ namespace OpenGL
                 Objects.DrawBench();
             });
 
-            //Graphics.CreateNewCoordinatesSystem(() =>
-            //{
-            //    GL.Translate(0, 100f, 0);
-            //    GL.Rotate(alpha * 5, 0, 0, 1);
-            //    Graphics.DrawCoordinatesSystem(20f);
-            //    Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
-            //    Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
-            //    Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
-            //    Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
-            //});
+            Graphics.CreateCoordinatesSystem(() =>
+            {
+                GL.Translate(0, 100f, 0);
+                GL.Rotate(alpha * 5, 0, 0, 1);
+                Graphics.DrawCoordinatesSystem(20f);
+                Graphics.DrawCylinder((0, 0f, 0), 3f, 30f, Color.Pink);
+                Graphics.DrawSphere((0, 15f, 0), 3f, Color.DeepPink);
+                Graphics.DrawSphere((-3.5f, -15f, 0), 5f, Color.HotPink);
+                Graphics.DrawSphere((3.5f, -15f, 0), 5f, Color.HotPink);
+            });
 
             Graphics.CreateCoordinatesSystem(() =>
             {
