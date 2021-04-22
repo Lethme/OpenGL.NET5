@@ -148,6 +148,84 @@ namespace OpenGL.Window.Graphics
                 GL.Color4(Color.LightGray);
             }
         }
+        public static void DrawSphere(FloatPoint3 center, FloatPoint3 radius, Color? fillColor = null, Color? normalColor = null)
+        {
+            int nx = 64, ny = 64;
+            int ix, iy;
+            double x, y, z, sy, cy, sy1, cy1, sx, cx, piy, pix, ay, ay1, ax, dnx, dny, diy;
+            dnx = 1.0 / (double)nx;
+            dny = 1.0 / (double)ny;
+            // Рисуем полигональную модель сферы, формируем нормали и задаем коодинаты текстуры
+            // Каждый полигон - это трапеция. Трапеции верхнего и нижнего слоев вырождаются в треугольники
+            GL.Begin(PrimitiveType.QuadStrip);
+            GL.Color4(fillColor == null ? Settings.Drawing.FillColor : (Color)fillColor);
+            piy = Math.PI * dny;
+            pix = Math.PI * dnx;
+            for (iy = 0; iy < ny; iy++)
+            {
+                diy = (double)iy;
+                ay = diy * piy;
+                sy = Math.Sin(ay);
+                cy = Math.Cos(ay);
+                ay1 = ay + piy;
+                sy1 = Math.Sin(ay1);
+                cy1 = Math.Cos(ay1);
+                for (ix = 0; ix <= nx; ix++)
+                {
+                    ax = 2.0 * ix * pix;
+                    sx = Math.Sin(ax);
+                    cx = Math.Cos(ax);
+                    x = center.X + radius.X * sy * cx;
+                    y = center.Y + radius.Y * sy * sx;
+                    z = center.Z + radius.Z * cy;
+                    // Координаты нормали в текущей вершине
+                    GL.Normal3(x, y, z); // Нормаль направлена от центра
+                    GL.Vertex3(x, y, z);
+                    x = center.X + radius.X * sy1 * cx;
+                    y = center.Y + radius.Y * sy1 * sx;
+                    z = center.Z + radius.Z * cy1;
+                    GL.Normal3(x, y, z);
+                    GL.Vertex3(x, y, z);
+                }
+            }
+            GL.End();
+            if (Window.ShowNormals)
+            {
+                double rvx = 1.15 * radius.X;
+                double rvy = 1.15 * radius.Y;
+                double rvz = 1.15 * radius.Z;
+                // Толщина линии, отображающей нормаль
+                GL.LineWidth(1);
+                GL.Color4(normalColor == null ? Settings.Drawing.NormalColor : (Color)normalColor);
+                GL.Begin(PrimitiveType.Lines);
+                piy = Math.PI * dny;
+                pix = Math.PI * dnx;
+                for (iy = 0; iy < ny; iy++)
+                {
+                    diy = (double)iy;
+                    ay = diy * piy;
+                    sy = Math.Sin(ay);
+                    cy = Math.Cos(ay);
+                    for (ix = 0; ix <= nx; ix++)
+                    {
+                        ax = 2.0 * ix * pix;
+                        sx = Math.Sin(ax);
+                        cx = Math.Cos(ax);
+                        x = center.X + radius.X * sy * cx;
+                        y = center.Y + radius.Y * sy * sx;
+                        z = center.Z + radius.Z * cy;
+                        GL.Vertex3(x, y, z);
+                        x = center.X + rvx * sy * cx;
+                        y = center.Y + rvy * sy * sx;
+                        z = center.Z + rvz * cy;
+                        GL.Vertex3(x, y, z);
+                    }
+                }
+                GL.End();
+                GL.LineWidth(1);
+                GL.Color4(Color.LightGray);
+            }
+        }
         public static void DrawCone(FloatPoint3 center, float radius, float height, Color? fillColor = null, Color? borderColor = null)
         {
             var segments = 360;
